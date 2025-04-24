@@ -1,0 +1,226 @@
+.schedule-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #00a884;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 8px;
+    transition: all 0.3s ease;
+    color: white;
+    font-size: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.schedule-button:hover {
+    background-color: #008f72;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.schedule-button:active {
+    transform: scale(0.95);
+}
+
+.schedule-button img {
+    width: 24px;
+    height: 24px;
+}
+
+.scheduled-messages-container {
+    position: fixed;
+    right: -300px;
+    top: 0;
+    bottom: 0;
+    width: 300px;
+    background-color: #1f2c33;
+    border-left: 1px solid #374045;
+    padding: 16px;
+    overflow-y: auto;
+    z-index: 1000;
+    transition: right 0.3s ease;
+    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
+    visibility: hidden;
+    opacity: 0;
+    transition: right 0.3s ease, visibility 0.3s ease, opacity 0.3s ease;
+}
+
+.scheduled-messages-container::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: -1;
+}
+
+.scheduled-messages-container.open {
+    right: 0;
+    visibility: visible;
+    opacity: 1;
+}
+
+.scheduled-messages-container.open::before {
+    opacity: 1;
+    visibility: visible;
+}
+
+.scheduled-message {
+    background-color: #2a3942;
+    border-radius: 8px;
+    padding: 12px;
+    margin-bottom: 8px;
+    color: #e9edef;
+}
+
+.scheduled-message-header {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #374045;
+}
+
+.scheduled-message-header .chat-name {
+    color: #00a884;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.scheduled-message-content {
+    margin-bottom: 8px;
+    line-height: 1.4;
+}
+
+.scheduled-message-time {
+    color: #8696a0;
+    font-size: 12px;
+    margin-top: 4px;
+}
+
+.scheduled-messages-header {
+    color: #e9edef;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #374045;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+.scheduled-messages-header .close-button,
+.scheduled-messages-header .clear-button {
+    background: none;
+    border: none;
+    color: #8696a0;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.scheduled-messages-header .clear-button {
+    font-size: 14px;
+}
+
+.scheduled-messages-header .close-button {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.scheduled-messages-header .close-button:hover,
+.scheduled-messages-header .clear-button:hover {
+    background-color: #374045;
+    color: #e9edef;
+}
+
+/* Novos estilos para mensagens agendadas */
+.scheduled-message-preview {
+    display: none;
+}
+
+/* Estilo para o ícone de notificação no chat */
+.chat-scheduled-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #00a884;
+    font-size: 16px;
+    display: none;
+    background-color: #2a3942;
+    padding: 4px;
+    border-radius: 50%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.chat-scheduled-icon.visible {
+    display: block;
+}
+
+/* Botão flutuante para expandir a lista */
+.floating-expand-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #00a884;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+    transition: all 0.3s ease;
+}
+
+.floating-expand-button:hover {
+    background-color: #008f72;
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.floating-expand-button:active {
+    transform: scale(0.95);
+}
+
+.floating-expand-button .badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background-color: #ff3b30;
+    color: white;
+    font-size: 12px;
+    min-width: 18px;
+    height: 18px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+} 

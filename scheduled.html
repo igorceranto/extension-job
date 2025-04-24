@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mensagens Agendadas</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <h1>Mensagens Agendadas</h1>
+  <div id="scheduled-messages">
+    <h2>Mensagens Não Enviadas</h2>
+    <ul id="not-sent-list">
+      <!-- Mensagens não enviadas serão listadas aqui -->
+    </ul>
+
+    <h2>Mensagens Enviadas</h2>
+    <ul id="sent-list">
+      <!-- Mensagens enviadas serão listadas aqui -->
+    </ul>
+  </div>
+
+  <div id="controls">
+    <button id="export">Exportar Mensagens</button>
+    <button id="import">Importar Mensagens</button>
+  </div>
+
+  <script src="scheduled.js"></script>
+</body>
+</html>
