@@ -11,6 +11,7 @@
       }
       .status {
         color: #128C7E;
+        text-align: center;
         font-weight: bold;
         margin-bottom: 10px;
       }
@@ -19,18 +20,95 @@
         font-size: 14px;
         line-height: 1.4;
       }
+      .developer {
+        margin-top: 15px;
+        padding-top: 10px;
+        border-top: 1px solid #ddd;
+        color: #666;
+        font-size: 12px;
+        text-align: center;
+      }
+      .developer a {
+        color: #128C7E;
+        text-decoration: none;
+        font-weight: bold;
+      }
+      .developer a:hover {
+        text-decoration: underline;
+      }
+      .form-group {
+        margin-bottom: 15px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+      }
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+      .form-group textarea {
+        height: 100px;
+        resize: vertical;
+      }
+      .button {
+        background-color: #128C7E;
+        color: white;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        width: 100%;
+        font-size: 14px;
+      }
+      .button:hover {
+        background-color: #075E54;
+      }
+      .scheduled-messages {
+        margin-top: 20px;
+        border-top: 1px solid #ddd;
+        padding-top: 15px;
+      }
+      .scheduled-message {
+        background-color: #f5f5f5;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+      }
+      .scheduled-message .time {
+        color: #666;
+        font-size: 12px;
+      }
+      .scheduled-message .message {
+        margin-top: 5px;
+      }
     </style>
   </head>
   <body>
     <div class="status">WhatsApp Scheduler Ativo</div>
-    <div class="instructions">
-      <p>Para agendar uma mensagem:</p>
-      <ol>
-        <li>Abra o WhatsApp Web</li>
-        <li>Digite sua mensagem</li>
-        <li>Clique no botão ⏰ no canto superior direito do chat</li>
-        <li>Selecione a data e hora desejada</li>
-      </ol>
+    
+    <div class="form-group">
+      <label for="message">Mensagem:</label>
+      <textarea id="message" placeholder="Digite sua mensagem aqui..."></textarea>
     </div>
+    
+    <div class="form-group">
+      <label for="datetime">Data e Hora:</label>
+      <input type="datetime-local" id="datetime">
+    </div>
+    
+    <button id="schedule" class="button">Agendar Mensagem</button>
+
+    
+    <div class="developer">
+      Desenvolvido por <a href="https://github.com/igorceranto" target="_blank">Igor Ceranto</a>
+    </div>
+    
+    <script src="popup.js"></script>
   </body>
 </html>

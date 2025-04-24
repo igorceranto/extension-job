@@ -1,18 +1,25 @@
 {
     "manifest_version": 3,
     "name": "WhatsApp Scheduler",
-    "version": "1.0.0",
-    "description": "Agende mensagens no WhatsApp Web",
+    "version": "1.0",
+    "description": "Agende mensagens no WhatsApp Web - Desenvolvido por Igor Ceranto",
+    "author": "Igor Ceranto",
     "permissions": [
         "storage",
         "alarms",
-        "tabs"
+        "tabs",
+        "scripting"
     ],
     "host_permissions": [
         "https://web.whatsapp.com/*"
     ],
     "action": {
-      "default_popup": "popup.html"
+      "default_popup": "popup.html",
+      "default_icon": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
+      }
     },
     "background": {
       "service_worker": "background.js",
@@ -32,5 +39,10 @@
     }],
     "content_security_policy": {
         "extension_pages": "script-src 'self'; object-src 'self'"
+    },
+    "icons": {
+        "16": "icons/icon16.png",
+        "48": "icons/icon48.png",
+        "128": "icons/icon128.png"
     }
 }

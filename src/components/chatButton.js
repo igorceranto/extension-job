@@ -53,6 +53,9 @@ function handleScheduleClick() {
             <button id="cancel-schedule" style="padding: 8px 15px; border: none; border-radius: 4px; background: #ddd; cursor: pointer;">Cancelar</button>
             <button id="confirm-schedule" style="padding: 8px 15px; border: none; border-radius: 4px; background: #00a884; color: white; cursor: pointer;">Agendar</button>
         </div>
+        <div style="margin-top: 15px; padding-top: 10px; border-top: 1px solid #ddd; color: #666; font-size: 12px; text-align: center;">
+            Desenvolvido por Igor Ceranto
+        </div>
     `;
 
     document.body.appendChild(modal);

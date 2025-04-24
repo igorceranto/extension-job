@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gerar Ícones do WhatsApp Scheduler</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+        .icon-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        canvas {
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            background: white;
+        }
+        button {
+            background-color: #128C7E;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background-color: #075E54;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .status {
+            margin-top: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Gerador de Ícones - WhatsApp Scheduler</h1>
+    <div class="icon-container">
+        <div>
+            <canvas id="icon16" width="16" height="16"></canvas>
+            <p>16x16</p>
+        </div>
+        <div>
+            <canvas id="icon48" width="48" height="48"></canvas>
+            <p>48x48</p>
+        </div>
+        <div>
+            <canvas id="icon128" width="128" height="128"></canvas>
+            <p>128x128</p>
+        </div>
+    </div>
+    <button onclick="generateIcons()">Gerar e Salvar Ícones</button>
+    <div id="status" class="status"></div>
+
+    <script>
+        function drawIcon(canvasId, size) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // Limpa o canvas
+            ctx.clearRect(0, 0, size, size);
+            
+            // Fundo com gradiente
+            const gradient = ctx.createLinearGradient(0, 0, size, size);
+            gradient.addColorStop(0, '#128C7E');
+            gradient.addColorStop(1, '#075E54');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, size, size);
+            
+            // Círculo branco com sombra suave
+            ctx.fillStyle = 'white';
+            const centerX = size / 2;
+            const centerY = size / 2;
+            const radius = size * 0.35;
+            
+            // Adiciona sombra suave
+            ctx.shadowColor = 'rgba(0,0,0,0.2)';
+            ctx.shadowBlur = size * 0.05;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = size * 0.02;
+            
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Remove sombra para os ponteiros
+            ctx.shadowColor = 'transparent';
+            
+            // Ponteiros do relógio
+            ctx.fillStyle = '#128C7E';
+            
+            // Ponteiro das horas
+            ctx.save();
+            ctx.translate(centerX, centerY);
+            ctx.rotate(-Math.PI / 4);
+            ctx.fillRect(-size * 0.02, -size * 0.2, size * 0.04, size * 0.2);
+            ctx.restore();
+            
+            // Ponteiro dos minutos
+            ctx.save();
+            ctx.translate(centerX, centerY);
+            ctx.rotate(Math.PI / 3);
+            ctx.fillRect(-size * 0.01, -size * 0.3, size * 0.02, size * 0.3);
+            ctx.restore();
+            
+            // Adiciona um ponto central
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, size * 0.03, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        function generateIcons() {
+            const status = document.getElementById('status');
+            status.textContent = 'Gerando ícones...';
+            
+            // Desenha os ícones
+            drawIcon('icon16', 16);
+            drawIcon('icon48', 48);
+            drawIcon('icon128', 128);
+            
+            // Salva os ícones
+            const sizes = [16, 48, 128];
+            let savedCount = 0;
+            
+            sizes.forEach(size => {
+                const canvas = document.getElementById(`icon${size}`);
+                const link = document.createElement('a');
+                link.download = `icon${size}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                savedCount++;
+                
+                if (savedCount === sizes.length) {
+                    status.textContent = 'Ícones gerados com sucesso!';
+                }
+            });
+        }
+
+        // Desenha os ícones ao carregar a página
+        window.onload = function() {
+            drawIcon('icon16', 16);
+            drawIcon('icon48', 48);
+            drawIcon('icon128', 128);
+        };
+    </script>
+</body>
+</html> 

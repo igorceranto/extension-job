@@ -187,3 +187,142 @@ if (window.location.hostname.includes("web.whatsapp.com")) {
     });
   });
 }
+
+// Adiciona o listener para mensagens do popup
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === "scheduleMessage") {
+    const { message, scheduledTime } = request;
+    
+    // Salva a mensagem agendada
+    chrome.storage.local.get("persistentMessages", (data) => {
+      let messages = data.persistentMessages || [];
+      messages.push({
+        message,
+        scheduledTime,
+        enviado: false
+      });
+      
+      chrome.storage.local.set({ persistentMessages: messages }, () => {
+        // Configura o alarme para enviar a mensagem
+        chrome.alarms.create(scheduledTime, { when: new Date(scheduledTime).getTime() });
+        sendResponse({ success: true });
+      });
+    });
+    
+    return true; // Mantém a conexão aberta para a resposta assíncrona
+  }
+});
+
+// Função para detectar elementos do WhatsApp
+function detectWhatsAppElements() {
+  return new Promise((resolve, reject) => {
+    const maxAttempts = 10;
+    let attempts = 0;
+
+    const checkElements = () => {
+      attempts++;
+      
+      const chatContainer = document.querySelector('div[data-testid="conversation-panel"]');
+      const inputField = document.querySelector('div[data-testid="conversation-compose-box-input"]');
+      const sendButton = document.querySelector('button[data-testid="send"]');
+
+      if (chatContainer && inputField && sendButton) {
+        resolve({ chatContainer, inputField, sendButton });
+      } else if (attempts >= maxAttempts) {
+        reject(new Error('Elementos do WhatsApp não encontrados após várias tentativas'));
+      } else {
+        setTimeout(checkElements, 500);
+      }
+    };
+
+    checkElements();
+  });
+}
+
+// Função para verificar se o WhatsApp Web está carregado
+function checkWhatsAppLoaded() {
+  return new Promise((resolve, reject) => {
+    const maxAttempts = 20;
+    let attempts = 0;
+
+    const check = () => {
+      attempts++;
+      
+      // Verifica se a página está carregada
+      if (document.readyState === 'complete') {
+        // Verifica se o WhatsApp Web está carregado
+        const whatsAppLoaded = document.querySelector('div[data-testid="chat-list"]') !== null;
+        
+        if (whatsAppLoaded) {
+          resolve(true);
+        } else if (attempts >= maxAttempts) {
+          reject(new Error('WhatsApp Web não carregou corretamente'));
+        } else {
+          setTimeout(check, 500);
+        }
+      } else if (attempts >= maxAttempts) {
+        reject(new Error('Página não carregou completamente'));
+      } else {
+        setTimeout(check, 500);
+      }
+    };
+
+    check();
+  });
+}
+
+// Modifica a função sendMessageWithRetry para incluir a verificação de carregamento
+async function sendMessageWithRetry(message) {
+  try {
+    // Verifica se o WhatsApp Web está carregado
+    await checkWhatsAppLoaded();
+    
+    // Detecta os elementos
+    const elements = await detectWhatsAppElements();
+    
+    // Limpa o campo de entrada
+    elements.inputField.textContent = '';
+    elements.inputField.dispatchEvent(new Event('input', { bubbles: true }));
+    
+    // Insere a mensagem
+    elements.inputField.textContent = message;
+    elements.inputField.dispatchEvent(new Event('input', { bubbles: true }));
+    
+    // Aguarda um momento para garantir que o texto foi inserido
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
+    // Clica no botão de enviar
+    elements.sendButton.click();
+    
+    return true;
+  } catch (error) {
+    console.error('Erro ao enviar mensagem:', error);
+    throw error;
+  }
+}
+
+// Modifica o listener de alarmes para usar as novas funções
+chrome.alarms.onAlarm.addListener((alarm) => {
+  chrome.storage.local.get("persistentMessages", (data) => {
+    const messages = data.persistentMessages || [];
+    const messageToSend = messages.find(m => m.scheduledTime === alarm.name && !m.enviado);
+    
+    if (messageToSend) {
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs.length > 0 && tabs[0].url.includes("web.whatsapp.com")) {
+          chrome.scripting.executeScript({
+            target: { tabId: tabs[0].id },
+            func: sendMessageWithRetry,
+            args: [messageToSend.message]
+          }).then(() => {
+            // Marca a mensagem como enviada
+            messageToSend.enviado = true;
+            chrome.storage.local.set({ persistentMessages: messages });
+          }).catch(error => {
+            console.error('Erro ao enviar mensagem:', error);
+          });
+        }
+      });
+    }
+  });
+});

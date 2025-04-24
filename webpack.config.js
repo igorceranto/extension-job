@@ -39,6 +39,10 @@ module.exports = {
                 {
                     from: 'popup.html',
                     to: 'popup.html'
+                },
+                {
+                    from: 'icons',
+                    to: 'icons'
                 }
             ]
         })
