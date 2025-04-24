@@ -1,17 +1,36 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
-    <title>Agendar Mensagem</title>
-    <link rel="stylesheet" href="popup.css">
+    <meta charset="UTF-8">
+    <title>WhatsApp Scheduler</title>
+    <style>
+      body {
+        width: 300px;
+        padding: 15px;
+        font-family: Arial, sans-serif;
+      }
+      .status {
+        color: #128C7E;
+        font-weight: bold;
+        margin-bottom: 10px;
+      }
+      .instructions {
+        color: #333;
+        font-size: 14px;
+        line-height: 1.4;
+      }
+    </style>
   </head>
   <body>
-    <div class="container">
-      <h3>Agendar Mensagem</h3>
-      <textarea id="mensagem" placeholder="Sua mensagem..."></textarea><br/>
-      <input type="datetime-local" id="horario"/><br/>
-      <button id="agendar">Agendar</button>
+    <div class="status">WhatsApp Scheduler Ativo</div>
+    <div class="instructions">
+      <p>Para agendar uma mensagem:</p>
+      <ol>
+        <li>Abra o WhatsApp Web</li>
+        <li>Digite sua mensagem</li>
+        <li>Clique no botão ⏰ no canto superior direito do chat</li>
+        <li>Selecione a data e hora desejada</li>
+      </ol>
     </div>
-    <script src="popup.js"></script>
   </body>
 </html>

@@ -1,14 +1,12 @@
 {
     "manifest_version": 3,
-    "name": "Agendar Mensagem",
-    "version": "1.0",
-    "description": "Envia mensagens em horários agendados.",
+    "name": "WhatsApp Scheduler",
+    "version": "1.0.0",
+    "description": "Agende mensagens no WhatsApp Web",
     "permissions": [
         "storage",
-        "scripting",
-        "tabs",
         "alarms",
-        "activeTab"
+        "tabs"
     ],
     "host_permissions": [
         "https://web.whatsapp.com/*"
@@ -22,15 +20,15 @@
     },
     "content_scripts": [
         {
-            "matches": ["https://web.whatsapp.com/*"],
-            "js": ["persist.js"],
+            "matches": ["*://web.whatsapp.com/*"],
+            "js": ["main.js"],
             "css": ["persist.css"],
             "run_at": "document_end"
         }
     ],
     "web_accessible_resources": [{
         "resources": ["persist.css"],
-        "matches": ["https://web.whatsapp.com/*"]
+        "matches": ["*://web.whatsapp.com/*"]
     }],
     "content_security_policy": {
         "extension_pages": "script-src 'self'; object-src 'self'"
